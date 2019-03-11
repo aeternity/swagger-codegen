@@ -23,11 +23,11 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     // This is the name of elixir project name;
     protected static final String defaultPackageName = "swagger_client";
 
-    String supportedElixirVersion = "1.4";
+    String supportedElixirVersion = "1.8";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 0.8\"}",
-            "{:poison, \">= 1.0.0\"}"
+            "{:tesla, \"~> 1.2.1\"}",
+            "{:poison, \">= 4.0.1\"}"
     );
 
     public ElixirClientCodegen() {
@@ -232,11 +232,6 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("request_builder.ex.mustache",
             sourceFolder(),
             "request_builder.ex"));
-
-
-        supportingFiles.add(new SupportingFile("deserializer.ex.mustache",
-            sourceFolder(),
-            "deserializer.ex"));
     }
 
     @Override

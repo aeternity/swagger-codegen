@@ -1,4 +1,3 @@
-{{>licenseInfo}}
 {{#models}}{{#model}}defmodule {{moduleName}}.Model.{{classname}} do
   @moduledoc """
   {{description}}
@@ -18,15 +17,8 @@ end
 
 defimpl Poison.Decoder, for: {{moduleName}}.Model.{{classname}} do
 {{#hasComplexVars}}
-  import {{moduleName}}.Deserializer
-  def decode(value, options) do
+  def decode(value, _options) do
     value
-    {{#vars}}
-    {{^isPrimitiveType}}
-    {{#datatype}}|> deserialize(:"{{baseName}}", {{#isListContainer}}:list, {{moduleName}}.Model.{{items.datatype}}{{/isListContainer}}{{#isMapContainer}}:map, {{moduleName}}.Model.{{items.datatype}}{{/isMapContainer}}{{#isDate}}:date, nil{{/isDate}}{{#isDateTime}}:date, nil{{/isDateTime}}{{^isDate}}{{^isDateTime}}{{^isMapContainer}}{{^isListContainer}}:struct, {{moduleName}}.Model.{{datatype}}{{/isListContainer}}{{/isMapContainer}}{{/isDateTime}}{{/isDate}}, options)
-    {{/datatype}}
-    {{/isPrimitiveType}}
-    {{/vars}}
 {{/hasComplexVars}}
 {{^hasComplexVars}}
   def decode(value, _options) do
