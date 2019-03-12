@@ -19,8 +19,4 @@ To build from source, you need the following installed and available in your $PA
 ```
   java -jar /modules/swagger-codegen-cli/target/swagger-codegen-cli.jar generate -i "PATH_TO_SWAGGER.yaml" -l elixir -o "DESTINATION_PATH"
 ```
-3. Add `.formatter.exs` to newly generated elixir folder:
-``` 
-  [inputs: ["{mix,.formatter}.exs", "{config,lib,test}/**/*.{ex,exs}"]]
-```
-4. Run `mix deps.get && mix format && iex -S mix ` 
+3. Run `mix deps.get && mix format && iex -S mix ` 

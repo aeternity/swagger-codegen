@@ -36,16 +36,6 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         // set the output folder here
         outputFolder = "generated-code/elixir";
 
-        /*
-         * Models.  You can write model files using the modelTemplateFiles map.
-         * if you want to create one template for file, you can do so here.
-         * for multiple files for model, just put another entry in the `modelTemplateFiles` with
-         * a different extension
-         */
-        modelTemplateFiles.put(
-                "model.mustache", // the template to use
-                ".ex");       // the extension for each file to write
-
         /**
          * Api classes.  You can write classes for each Api file with the apiTemplateFiles map.
          * as with models, add multiple entries with different extensions for multiple files per
@@ -107,6 +97,10 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         supportingFiles.add(new SupportingFile("gitignore.mustache",
                 "",
                 ".gitignore")
+        );
+        supportingFiles.add(new SupportingFile("formatter.exs.mustache",
+                "",
+                ".formatter.exs")
         );
 
         /**
@@ -597,32 +591,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 }
             }
 
-            sb.append("keyword()) :: {:ok, ");
-            if (returnBaseType == null) {
-                sb.append("nil");
-            } else if (returnSimpleType) {
-                if (!returnTypeIsPrimitive) {
-                    sb.append(moduleName);
-                    sb.append(".Model.");
-                }
-                sb.append(returnBaseType);
-                sb.append(".t");
-            } else if (returnContainer == null) {
-                sb.append(returnBaseType);
-                sb.append(".t");
-            } else {
-                if (returnContainer.equals("array")) {
-                    sb.append("list(");
-                    if (!returnTypeIsPrimitive) {
-                        sb.append(moduleName);
-                        sb.append(".Model.");
-                    }
-                    sb.append(returnBaseType);
-                    sb.append(".t)");
-                } else if (returnContainer.equals("map")) {
-                    sb.append("map()");
-                }
-            }
+            sb.append("keyword()) :: {:ok, map()");
             sb.append("} | {:error, Tesla.Env.t}");
             return sb.toString();
         }
