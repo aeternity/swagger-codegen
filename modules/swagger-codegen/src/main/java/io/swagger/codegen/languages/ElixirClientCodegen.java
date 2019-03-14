@@ -619,11 +619,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             } else if (param.isFile) {
                 sb.append("String.t");
             } else {
-                // <module>.Model.<type>.t
-                sb.append(moduleName);
-                sb.append(".Model.");
-                sb.append(param.dataType);
-                sb.append(".t");
+              sb.append("map()");
             }
         }
         private void buildTypespec(CodegenProperty property, StringBuilder sb) {
@@ -639,10 +635,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append(property.baseType);
                 sb.append(".t");
             } else {
-                sb.append(moduleName);
-                sb.append(".Model.");
-                sb.append(property.baseType);
-                sb.append(".t");
+                sb.append("map()");
             }
         }
 
