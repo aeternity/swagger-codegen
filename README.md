@@ -10,7 +10,7 @@ To build from source, you need the following installed and available in your $PA
 ## Running script
 0. Clone the project: 
 ```
-  git clone https://github.com/DanielaIvanova/swagger-codegen/ &&
+  git clone https://github.com/aeternity/swagger-codegen &&
   cd swagger-codegen/ &&
   git checkout elixir-adjustment
 ```
