@@ -94,6 +94,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 "test",
                 "test_helper.exs")
         );
+        /** 
         supportingFiles.add(new SupportingFile("gitignore.mustache",
                 "",
                 ".gitignore")
@@ -102,6 +103,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 "",
                 ".formatter.exs")
         );
+        */
 
         /**
          * Language Specific Primitives.  These types will not trigger imports by
