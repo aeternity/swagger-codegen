@@ -23,11 +23,11 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
     // This is the name of elixir project name;
     protected static final String defaultPackageName = "swagger_client";
 
-    String supportedElixirVersion = "1.4";
+    String supportedElixirVersion = "1.8";
     List<String> extraApplications = Arrays.asList(":logger");
     List<String> deps = Arrays.asList(
-            "{:tesla, \"~> 0.8\"}",
-            "{:poison, \">= 1.0.0\"}"
+            "{:tesla, \"~> 1.2.1\"}",
+            "{:poison, \">= 4.0.1\"}"
     );
 
     public ElixirClientCodegen() {
@@ -88,10 +88,12 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
          * entire object tree available.  If the input file has a suffix of `.mustache
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
+        /**
         supportingFiles.add(new SupportingFile("README.md.mustache",   // the input template or file
                 "",                                                       // the destination folder, relative `outputFolder`
                 "README.md")                                          // the output file
         );
+        */
         supportingFiles.add(new SupportingFile("config.exs.mustache",
                 "config",
                 "config.exs")
@@ -104,10 +106,12 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 "test",
                 "test_helper.exs")
         );
+        /**
         supportingFiles.add(new SupportingFile("gitignore.mustache",
                 "",
                 ".gitignore")
         );
+        */
 
         /**
          * Language Specific Primitives.  These types will not trigger imports by
@@ -328,7 +332,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
         for (String word : moduleName.split("\\.")) {
             underscoredWords.add(underscore(word));
         }
-        return "lib/" + join("/", underscoredWords);
+        return "lib/";
+        // return "lib/" + join("/", underscoredWords);
     }
 
     /**
@@ -336,7 +341,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      * instantiated
      */
     public String modelFileFolder() {
-        return outputFolder + "/" + sourceFolder() + "/" + "model";
+        return outputFolder + "/" + "lib/" + "model";
+        // return outputFolder + "/" + sourceFolder() + "/" + "model";
     }
 
     /**
@@ -345,7 +351,8 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
      */
     @Override
     public String apiFileFolder() {
-        return outputFolder + "/" + sourceFolder() + "/" + "api";
+        return outputFolder + "/" + "lib/" + "api";
+        // return outputFolder + "/" + sourceFolder() + "/" + "api";
     }
 
     @Override

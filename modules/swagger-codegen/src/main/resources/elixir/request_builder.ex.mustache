@@ -1,4 +1,3 @@
-{{>licenseInfo}}
 defmodule {{moduleName}}.RequestBuilder do
   @moduledoc """
   Helper functions for building Tesla requests
@@ -111,12 +110,22 @@ defmodule {{moduleName}}.RequestBuilder do
   {:ok, struct} on success
   {:error, term} on failure
   """
-  @spec decode(Tesla.Env.t | term()) :: {:ok, struct()} | {:error, Tesla.Env.t} | {:error, term()}
-  def decode(%Tesla.Env{status: 200, body: body}), do: Poison.decode(body)
-  def decode(response), do: {:error, response}
+  @spec decode({:ok, Tesla.Env.t()} | term()) ::
+          {:ok, struct()} | {:error, Tesla.Env.t()} | {:error, term()}
+  def decode({:ok, %Tesla.Env{status: 200, body: body}}), do: Poison.decode(body)
+  def decode({_, response}), do: {:error, response}
+  
+  @spec decode({:ok, Tesla.Env.t()} | term(), false | struct() | [struct()]) ::
+          {:ok, struct()} | {:error, Tesla.Env.t()} | {:error, term()}
+  def decode({:ok, %Tesla.Env{status: 200} = env}, false), do: {:ok, env}
+  
+  def decode({:ok, %Tesla.Env{status: 200, body: body}}, struct),
+    do: Poison.decode(body, as: struct)
 
-  @spec decode(Tesla.Env.t | term(), :false | struct() | [struct()]) :: {:ok, struct()} | {:error, Tesla.Env.t} | {:error, term()}
-  def decode(%Tesla.Env{status: 200} = env, false), do: {:ok, env}
-  def decode(%Tesla.Env{status: 200, body: body}, struct), do: Poison.decode(body, as: struct)
-  def decode(response, _struct), do: {:error, response}
+  def decode({:ok, %Tesla.Env{body: body}}, _struct) do
+    case Poison.decode(body) do
+      {:ok, error_response} -> {:error, error_response}
+      decode_error -> decode_error
+    end
+  end
 end

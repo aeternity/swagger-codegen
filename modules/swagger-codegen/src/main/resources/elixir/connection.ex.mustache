@@ -1,4 +1,3 @@
-{{>licenseInfo}}
 defmodule {{moduleName}}.Connection do
   @moduledoc """
   Handle Tesla connections for {{moduleName}}.
@@ -6,9 +5,7 @@ defmodule {{moduleName}}.Connection do
 
   use Tesla
 
-  # Add any middleware here (authentication)
-  plug Tesla.Middleware.BaseUrl, "{{{basePath}}}"
-  plug Tesla.Middleware.Headers, %{"User-Agent" => "Elixir"}
+  plug Tesla.Middleware.Headers, [{"User-Agent", "Elixir"}]
   plug Tesla.Middleware.EncodeJson
 
   {{#hasAuthMethods}}
@@ -87,6 +84,11 @@ defmodule {{moduleName}}.Connection do
   """
   @spec new() :: Tesla.Env.client
   def new do
-    Tesla.build_client([])
+    Tesla.client([{Tesla.Middleware.BaseUrl, "http://localhost:3013/v2"}])
+  end
+
+  @spec new(String.t()) :: Tesla.Env.client()
+  def new(path) do
+    Tesla.client([{Tesla.Middleware.BaseUrl, path}])
   end
 end
